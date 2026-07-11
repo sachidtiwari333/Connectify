@@ -1,9 +1,10 @@
 import { ToastContainer, Bounce } from "react-toastify";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
-import SignUp from "./pages/SignUp.jsx";
-import SignIn from "./pages/SignIn.jsx";
+import Register from './pages/register.jsx';
+import Login from './pages/Login.jsx';
 import "react-toastify/dist/ReactToastify.css";
+import Landing from "./pages/Landing.jsx";
 
 const App = () => {
   return (
@@ -16,9 +17,10 @@ const App = () => {
       />
 
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </>
   );

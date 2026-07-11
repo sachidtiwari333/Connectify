@@ -72,7 +72,6 @@ const loginController = async (req, res) => {
   if (!isPasswordValid) {
     throw new ApiError(400, "Invalid  Credentials");
   }
-
   const token = jwt.sign(
     {
       _id: user._id,
@@ -88,10 +87,21 @@ const loginController = async (req, res) => {
     secure: false,
     sameSite: "lax",
   };
-  return res
-    .status(200)
-    .cookie("token", token, options)
-    .json(new ApiResponse(200, user, "User sign-in Successful", token));
+  console.log("Before cookie");
+
+  res.cookie("token", token, options);
+  console.log("Headers:", res.getHeaders());
+
+  console.log("Cookie added");
+
+  // return res
+  //   .status(200)
+  //   .json(new ApiResponse(200, user, "User sign-in Successful", token));
+  return res.status(200).json({
+    success: true,
+    token,
+    user,
+  });
 };
 
 const logoutController = (req, res) => {

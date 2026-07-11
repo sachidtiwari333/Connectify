@@ -3,23 +3,28 @@ import axios from "axios";
 import { toast, Bounce } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const SignUp = () => {
+const Register = () => {
   const navigate = useNavigate();
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [user, setUser] = useState({});
+  
   const submitHandler = async (e) => {
     e.preventDefault();
-    await setUser({ fullname, username, email, password });
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/auth/signup",
-        user,
+        "http://localhost:3000/api/v1/auth/register",
+        { fullname, username, email, password },
+        {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
       );
-      console.log(response);
+      await localStorage.setItem("token", response.data.token);
       toast.success("🎉 User registered successfully!", {
         position: "top-right",
         autoClose: 5000,
@@ -31,7 +36,7 @@ const SignUp = () => {
         theme: "light",
         transition: Bounce,
       });
-      navigate("/signin");
+      navigate("/home");
     } catch (err) {
       toast.error(err.response?.data?.message || "Registration failed", {
         position: "top-right",
@@ -101,4 +106,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Register;

@@ -1,9 +1,9 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { toast, Bounce } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 
-const SignIn = () => {
+const Login = () => {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -13,7 +13,7 @@ const SignIn = () => {
     
     try{
       const responce = await axios.post(
-        "http://localhost:3000/api/v1/auth/signin",
+        "http://localhost:3000/api/v1/auth/login",
         {
           email,
           password,
@@ -38,7 +38,8 @@ const SignIn = () => {
         theme: "light",
         transition: Bounce,
       });
-      navigate("/");
+      localStorage.setItem("token", responce.data.token);
+      navigate("/home");
       
     }catch(err){
       toast.error(err.response?.data?.message || "Sign-In failed", {
@@ -104,4 +105,4 @@ const SignIn = () => {
   )
 }
 
-export default SignIn
+export default Login

@@ -1,11 +1,11 @@
 
-import Navbar from '../components/Navbar'
-import SignUp from './SignUp'
+import LogoutButton from "../components/LogutButton"
 
 const Home = () => {
+  
   return (
     <div>
-      <Navbar />
+      <LogoutButton />
     </div>
   )
 }
