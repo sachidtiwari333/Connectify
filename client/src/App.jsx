@@ -5,6 +5,7 @@ import Register from './pages/register.jsx';
 import Login from './pages/Login.jsx';
 import "react-toastify/dist/ReactToastify.css";
 import Landing from "./pages/Landing.jsx";
+import ProtectedRoute from "./pages/ProtectedRoute.jsx";
 
 const App = () => {
   return (
@@ -18,7 +19,11 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+          } />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>

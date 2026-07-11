@@ -87,21 +87,14 @@ const loginController = async (req, res) => {
     secure: false,
     sameSite: "lax",
   };
-  console.log("Before cookie");
+
 
   res.cookie("token", token, options);
-  console.log("Headers:", res.getHeaders());
 
-  console.log("Cookie added");
-
-  // return res
-  //   .status(200)
-  //   .json(new ApiResponse(200, user, "User sign-in Successful", token));
-  return res.status(200).json({
-    success: true,
-    token,
-    user,
-  });
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "User sign-in Successful", token));
+  
 };
 
 const logoutController = (req, res) => {

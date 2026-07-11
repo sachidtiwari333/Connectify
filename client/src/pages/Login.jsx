@@ -12,7 +12,7 @@ const Login = () => {
     // handle signin logic
     
     try{
-      const responce = await axios.post(
+      const response = await axios.post(
         "http://localhost:3000/api/v1/auth/login",
         {
           email,
@@ -25,7 +25,7 @@ const Login = () => {
           },
         },
       )
-      console.log(responce);
+      console.log(response);
       
       toast.success("🎉 User Sign-In successfully!", {
         position: "top-right",
@@ -38,7 +38,7 @@ const Login = () => {
         theme: "light",
         transition: Bounce,
       });
-      localStorage.setItem("token", responce.data.token);
+      localStorage.setItem("token", response.data.token);
       navigate("/home");
       
     }catch(err){

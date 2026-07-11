@@ -1,7 +1,8 @@
 import axios from "axios";
 import { toast, Bounce } from "react-toastify";
-
+import { useNavigate } from "react-router-dom";
 const LogoutButton = () => {
+  const navigate = useNavigate()
   const handleLogout = async () => {
     try {
       const response = await axios.post(
@@ -14,9 +15,9 @@ const LogoutButton = () => {
           },
         }
       );
-
+      navigate('/login')
       console.log(response.data);
-      toast.success("🎉 User Sign-In successfully!", {
+      toast.success("🎉 User Logout successfully!", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -46,7 +47,7 @@ const LogoutButton = () => {
     <div>
       <button
         onClick={handleLogout}
-        className="px-5 py-2 bg-red-500 rounded-2xl m-10 cursor-pointer hover:bg-red-900 active:scale-95 text-2xl"
+        className="px-5 py-2 bg-red-500 rounded-2xl  cursor-pointer hover:bg-red-900 active:scale-95 text-xl"
       >
         Logout
       </button>

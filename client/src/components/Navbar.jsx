@@ -1,94 +1,59 @@
+import { Link } from "react-router-dom";
+import LogoutButton from "./LogutButton";
 
-import { useState } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
-import Home from '../pages/Home';
-
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
+const Navbar = ({ success }) => {
   return (
-    <nav className="bg-white shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <h1 className="text-2xl font-bold text-blue-600">Connectify</h1>
-          </div>
+    <nav className="bg-slate-900 text-white shadow-lg">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-8 py-4">
+        {/* Logo */}
+        <Link
+          to="/"
+          className="text-3xl font-bold text-cyan-400 hover:text-cyan-300 transition"
+        >
+          MyApp
+        </Link>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex gap-6">
-            <Link to='/' className="text-gray-700 hover:text-blue-600 transition">Home</Link>
-            <Link to='/about' className="text-gray-700 hover:text-blue-600 transition">About</Link>
-            <Link to='/services' className="text-gray-700 hover:text-blue-600 transition">Services</Link>
-            <Link to='/contact' className="text-gray-700 hover:text-blue-600 transition">Contact</Link>
-          </div>
+        {/* Navigation */}
+        <div className="flex items-center gap-6 text-lg">
+          <Link
+            to="/"
+            className="hover:text-cyan-400 transition duration-200"
+          >
+            Home
+          </Link>
 
-          {/* CTA Button */}
-          <div className="hidden md:flex gap-4">
-            <Link to='/signin' className="px-4 py-2 text-blue-600 border border-blue-600 rounded hover:bg-blue-50 transition">
-              Sign In
-            </Link>
-            <Link to='/signup' className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-              Sign Up
-            </Link>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button
-              onClick={toggleMenu}
-              className="text-gray-700 hover:text-blue-600 focus:outline-none"
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+          {success ? (
+            <>
+              <Link
+                to="/profile"
+                className="hover:text-cyan-400 transition duration-200"
               >
-                {isOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
-            </button>
-          </div>
-        </div>
+                Account
+              </Link>
 
-        {/* Mobile Menu */}
-        {isOpen && (
-          <div className="md:hidden pb-4 space-y-2">
-            <Link to='/' className="block px-4 py-2 text-gray-700 hover:bg-blue-50 rounded transition">Home</Link>
-            <Link to='/about' className="block px-4 py-2 text-gray-700 hover:bg-blue-50 rounded transition">About</Link>
-            <Link to='/services' className="block px-4 py-2 text-gray-700 hover:bg-blue-50 rounded transition">Services</Link>
-            <Link to='/contact' className="block px-4 py-2 text-gray-700 hover:bg-blue-50 rounded transition">Contact</Link>
-            <div className="flex gap-2 pt-2">
-              <Link to='/signup' className="flex-1 px-4 py-2 text-blue-600 border border-blue-600 rounded hover:bg-blue-50 transition">
-                Sign In
+              <LogoutButton />
+            </>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="hover:text-cyan-400 transition duration-200"
+              >
+                Login
               </Link>
-              <Link to='/signup' className="flex-1 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-                Sign Up
+
+              <Link
+                to="/register"
+                className="bg-cyan-500 hover:bg-cyan-600 px-4 py-2 rounded-lg transition duration-200"
+              >
+                Register
               </Link>
-            </div>
-          </div>
-        )}
+            </>
+          )}
+        </div>
       </div>
     </nav>
   );
 };
 
-export default Navbar
+export default Navbar;

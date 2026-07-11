@@ -1,11 +1,15 @@
+import Navbar from "../components/Navbar";
 
-import LogoutButton from "../components/LogutButton"
+import Profile from "../components/Profile"
 
-const Home = () => {
-  
+
+const Home = ({user}) => {
+  const isAuthenticated = !!user;
   return (
     <div>
-      <LogoutButton />
+      <Navbar success={isAuthenticated} />
+
+      <Profile user={user} />
     </div>
   )
 }

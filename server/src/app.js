@@ -3,6 +3,7 @@ import cors from 'cors'
 import userRouter from './routes/auth.routes.js'
 import { errorHandler } from './middlewares/errorHandler.js'
 import cookieParser from 'cookie-parser'
+import router from './routes/user.routes.js'
 
 const app = express()
 
@@ -18,7 +19,7 @@ app.use(cookieParser());
 
 
 app.use('/api/v1/auth', userRouter)
-
+app.use('/api/v1/user', router)
 // Error handling middleware (must be last)
 app.use(errorHandler)
 
