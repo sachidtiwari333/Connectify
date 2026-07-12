@@ -23,6 +23,12 @@ const userSchema = new mongoose.Schema({
     required : true,
     trim : true
   },
+  posts :  [
+    {
+      tpye: mongoose.Schema.Types.ObjectId,
+      ref : 'Post'
+    }
+  ]
 },{timestamps : true})
 
 export const  User = mongoose.model('User', userSchema)
