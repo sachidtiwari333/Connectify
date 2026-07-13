@@ -61,7 +61,7 @@ const registerController = async (req, res) => {
 const loginController = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).populate("posts");
 
   if (!user) {
     throw new ApiError(404, "User doesn't Exists");

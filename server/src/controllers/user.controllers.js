@@ -1,5 +1,8 @@
 import { ApiResponse } from "../utils/apiResponse.js";
 import { ApiError } from "../utils/apiError.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { Post } from "../models/post.models.js";
+import { User } from "../models/user.models.js";
 
 const userController = (req, res) => {
   try {
@@ -10,5 +13,40 @@ const userController = (req, res) => {
     throw new ApiError(500, err.message);
   }
 };
+const createPostController = async (req, res) => {
+  const { title } = req.body;
 
-export { userController };
+  if (!title) {
+    throw new ApiError(400, "Title is required");
+  }
+
+  const user = await User.findById(req.user.id);
+
+  const imageLocalPath = req.files?.image?.[0]?.path;
+  const image = await uploadOnCloudinary(imageLocalPath);
+
+  const post = await Post.create({
+    title,
+    image: image.secure_url,
+    createdBy: user._id,
+  });
+
+  // Save the post reference in the user
+  user.posts.push(post._id);
+  await user.save();
+
+  // Populate the owner details
+  const postCreated = await Post.findById(post._id).populate(
+    "createdBy",
+    "fullname username"
+  );
+
+  if (!postCreated) {
+    throw new ApiError(400, "Something went wrong");
+  }
+
+  return res.status(201).json(
+    new ApiResponse(201, postCreated, "Post created successfully")
+  );
+};
+export { userController, createPostController };

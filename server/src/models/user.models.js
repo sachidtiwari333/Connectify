@@ -23,10 +23,13 @@ const userSchema = new mongoose.Schema({
     required : true,
     trim : true
   },
-  posts :  [
+  description : {
+    type : String
+  },
+  posts: [
     {
-      tpye: mongoose.Schema.Types.ObjectId,
-      ref : 'Post'
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post"
     }
   ]
 },{timestamps : true})
