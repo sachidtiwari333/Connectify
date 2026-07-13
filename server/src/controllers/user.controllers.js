@@ -14,6 +14,7 @@ const userController = (req, res) => {
   }
 };
 const createPostController = async (req, res) => {
+
   const { title } = req.body;
 
   if (!title) {
@@ -32,7 +33,7 @@ const createPostController = async (req, res) => {
   });
 
   // Save the post reference in the user
-  user.posts.push(post._id);
+  user.posts.push(post);
   await user.save();
 
   // Populate the owner details

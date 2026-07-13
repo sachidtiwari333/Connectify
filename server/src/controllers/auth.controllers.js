@@ -43,7 +43,7 @@ const registerController = async (req, res) => {
     },
   );
 
-  const userCreated = await User.findById(user._id).select(["-hashedPassword"]);
+  const userCreated = await User.findById(user._id).select(["-hashedPassword"]).populate('posts');
   if (!userCreated) {
     throw new ApiError(400, "Something went wrong");
   }
