@@ -7,7 +7,7 @@ const ProtectedRoute = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
-
+  const [posts, setposts] = useState([])
   useEffect(() => {
     const checkUser = async () => {
       try {
@@ -29,8 +29,24 @@ const ProtectedRoute = ({ children }) => {
         setLoading(false);
       }
     };
-
+    const feedPosts = async()=>{
+      try{
+        const response = await axios.get(
+          'http://localhost:3000/api/v1/user/posts',
+          {
+            withCredentials: true,
+          }
+        )
+        setposts(response.data.data)
+        console.log("Posts fetched sucessfully");
+        
+      }catch(err){
+        console.log(err.message);
+        
+      }
+    }
     checkUser();
+    feedPosts()
   }, []);
 
   if (loading) {
@@ -42,7 +58,7 @@ const ProtectedRoute = ({ children }) => {
   }
 
   // Pass the user prop to the child component
-  return React.cloneElement(children, { user });
+  return React.cloneElement(children, { user, posts });
 };
 
 export default ProtectedRoute;

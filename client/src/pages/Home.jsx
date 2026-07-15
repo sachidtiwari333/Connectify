@@ -3,9 +3,9 @@ import LeftSidebar from "../components/LeftSidebar";
 import Feed from "../components/Feed";
 import RightSidebar from "../components/RightSidebar";
 
-const Home = ({ user }) => {
+const Home = ({ user,posts }) => {
   const isAuthenticated = !!user;
-
+  
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar success={isAuthenticated} />
@@ -20,7 +20,7 @@ const Home = ({ user }) => {
 
           {/* Feed */}
           <div className="col-span-12 lg:col-span-7">
-            <Feed user={user} />
+            <Feed posts={posts} />
           </div>
 
           {/* Right Sidebar */}

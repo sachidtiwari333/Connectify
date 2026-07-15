@@ -50,4 +50,15 @@ const createPostController = async (req, res) => {
     new ApiResponse(201, postCreated, "Post created successfully")
   );
 };
-export { userController, createPostController };
+
+const postsController = async(req, res) => {
+  try {
+    const posts = await Post.find().populate('createdBy','username, fullname')
+    return res.status(200).json(
+      new ApiResponse(200, posts, "Posts fetched successfully")
+    );
+  } catch (err) {
+    throw new ApiError(500, err.message);
+  }
+};
+export { userController, createPostController, postsController };

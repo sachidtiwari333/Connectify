@@ -1,13 +1,18 @@
 const Posts = ({ posts }) => {
+  
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-      {posts?.map((post, index) => (
+    <div className="flex flex-col gap-10 ">
+      { posts.map((post) => (
         <div
-          key={index}
-          className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition duration-300"
+          key={post._id}
+          className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 flex flex-col "
         >
+          <div className="flex gap-5 items-center m-3">
+            <h1 className="text-4xl bg-amber-200 px-5 py-3 rounded-full">{post.createdBy.fullname.charAt(0)}</h1>
+            <h1 className="text-3xl">{post.createdBy.fullname}</h1>
+          </div>
           {/* Image */}
-          <div className="w-full h-56 overflow-hidden">
+          <div className=" rounded-3xl h-cover overflow-hidden m-5">
             <img
               src={post.image}
               alt={post.title}
@@ -22,7 +27,7 @@ const Posts = ({ posts }) => {
             </h2>
 
             <div className="flex justify-between items-center mt-5 text-gray-500 text-sm">
-              <button className="hover:text-red-500 transition">
+              <button className="hover:text-red-500 transition" >
                 ❤️ Like
               </button>
 
