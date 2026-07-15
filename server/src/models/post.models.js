@@ -11,7 +11,12 @@ const postSchema = mongoose.Schema({
   createdBy : {
     type : mongoose.Schema.Types.ObjectId,
     ref : 'User'
-  }
+  },
+  likedBy : [{
+    type : mongoose.Schema.Types.ObjectId,
+    ref : 'User',
+    default: [],
+  }]
 },{timestamps : true})
 
 export const Post  = mongoose.model('Post', postSchema)
