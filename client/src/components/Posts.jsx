@@ -7,10 +7,11 @@ const Posts = ({ posts }) => {
           key={post._id}
           className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 flex flex-col "
         >
-          <div className="flex gap-5 items-center m-3">
-            <h1 className="text-4xl bg-amber-200 px-5 py-3 rounded-full">{post.createdBy.fullname.charAt(0)}</h1>
+          {post.createdBy.fullname ? <div className="flex gap-5 items-center m-3">
+            <h1 className="text-4xl bg-amber-200 px-5 py-3 rounded-full">{post.createdBy?.fullname?.charAt(0)}</h1>
             <h1 className="text-3xl">{post.createdBy.fullname}</h1>
-          </div>
+          </div> : null}
+          
           {/* Image */}
           <div className=" rounded-3xl h-cover overflow-hidden m-5">
             <img

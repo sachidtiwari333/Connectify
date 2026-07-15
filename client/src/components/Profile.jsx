@@ -4,6 +4,8 @@ import Posts from "./Posts";
 import Navbar from "./Navbar";
 const Profile = ({ user }) => {
    const isAuthenticated = !!user;
+   console.log(user?.posts);
+   
   return (
     <div className="min-h-screen bg-gray-100 pt-24 pb-10">
        <Navbar success={isAuthenticated} />

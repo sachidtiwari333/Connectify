@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import LogoutButton from "./LogutButton";
 
-const Navbar = ({ success }) => {
+const Navbar = ({ success, avatar }) => {
   return (
     <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
       <div className="max-w-7xl mx-auto h-20 px-6 flex items-center justify-between">
@@ -39,7 +39,7 @@ const Navbar = ({ success }) => {
         <div className="flex items-center gap-6">
 
           <Link
-            to="/"
+            to="/home"
             className="p-2 rounded-full hover:bg-violet-100 transition"
           >
             <Home className="text-violet-600" />
@@ -68,7 +68,7 @@ const Navbar = ({ success }) => {
               {/* Avatar */}
               <Link to="/profile">
                 <div className="w-11 h-11 rounded-full bg-gradient-to-r from-violet-500 to-cyan-500 flex items-center justify-center text-white font-bold text-lg cursor-pointer hover:scale-105 transition">
-                  A
+                  {avatar}
                 </div>
               </Link>
 
