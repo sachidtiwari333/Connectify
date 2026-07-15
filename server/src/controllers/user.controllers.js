@@ -64,6 +64,7 @@ const postsController = async (req, res) => {
 
 const likeController = async (req, res) => {
   try {
+    
     const user = req.user;
     const { postId } = req.body;
     
@@ -77,6 +78,7 @@ const likeController = async (req, res) => {
     }
     post.likedBy.push(user._id);
     await post.save();
+
     
     res.status(201).json(
       new ApiResponse(200,post, "Post liked Sucessfully" )

@@ -1,5 +1,26 @@
+import axios from 'axios'
+
 const Posts = ({ posts }) => {
-  
+    
+  const likeHandler = async(postId) =>{
+    try{
+      const response = await axios.post(
+        'http://localhost:3000/api/v1/user/like',
+        {
+        postId: postId,
+        },
+        {
+          withCredentials : true
+        }
+      )
+      console.log(response);
+      
+    }catch(err){
+      console.log(err.response?.data);
+      console.log(err.response?.status);
+      
+    }
+  }
   return (
     <div className="flex flex-col gap-10 ">
       { posts.map((post) => (
@@ -28,8 +49,12 @@ const Posts = ({ posts }) => {
             </h2>
 
             <div className="flex justify-between items-center mt-5 text-gray-500 text-sm">
-              <button className="hover:text-red-500 transition" >
-                ❤️ Like
+              <button className="hover:text-red-500 transition" 
+              onClick={ ()=>{
+                likeHandler(post._id)
+              }}
+              >
+                {post.likedBy.length}❤️ Like
               </button>
 
               <button className="hover:text-blue-500 transition">
