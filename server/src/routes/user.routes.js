@@ -1,6 +1,6 @@
 import express from 'express'
 import authMiddleware from '../middlewares/authMiddleware.js'
-import { createPostController, likeController, postsController, userController, suggestedUsersController } from '../controllers/user.controllers.js'
+import { createPostController, likeController, postsController, userController, suggestedUsersController, followUserController } from '../controllers/user.controllers.js'
 import { upload } from '../middlewares/multer.middleware.js'
 const router = express.Router()
 
@@ -13,4 +13,5 @@ router.post('/like', authMiddleware, likeController)
 
 router.get('/suggested-user', authMiddleware, suggestedUsersController)
 
+router.post('/follow', authMiddleware, followUserController)
 export default router
