@@ -38,7 +38,7 @@ const ProtectedRoute = ({ children }) => {
           }
         )
         setposts(response.data.data)
-        console.log("Posts fetched sucessfully");
+
         
       }catch(err){
         console.log(err.message);

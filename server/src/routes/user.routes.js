@@ -1,6 +1,6 @@
 import express from 'express'
 import authMiddleware from '../middlewares/authMiddleware.js'
-import { createPostController, likeController, postsController, userController } from '../controllers/user.controllers.js'
+import { createPostController, likeController, postsController, userController, suggestedUsersController } from '../controllers/user.controllers.js'
 import { upload } from '../middlewares/multer.middleware.js'
 const router = express.Router()
 
@@ -10,5 +10,7 @@ router.post('/create-post',upload.fields([{name: 'image', maxCount : 1}]),authMi
 router.get('/posts',authMiddleware, postsController)
 
 router.post('/like', authMiddleware, likeController)
+
+router.get('/suggested-user', authMiddleware, suggestedUsersController)
 
 export default router

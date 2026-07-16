@@ -87,9 +87,21 @@ const likeController = async (req, res) => {
     throw new ApiError(400, err.message);
   }
 };
+
+const suggestedUsersController = async (req, res) =>{
+  try {
+    const allusers = await User.find({})
+    return res
+      .status(200)
+      .json(new ApiResponse(200, allusers, "Users fetched successfully"));
+  } catch (err) {
+    throw new ApiError(500, err.message);
+  }
+}
 export {
   userController,
   createPostController,
   postsController,
   likeController,
+  suggestedUsersController,
 };

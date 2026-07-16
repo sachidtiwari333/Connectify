@@ -1,4 +1,27 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 const RightSidebar = () => {
+  const [users, setUsers] = useState([])
+  const fetchUsers = async()=>{
+    try{
+      const response  = await axios.get(
+        'http://localhost:3000/api/v1/user/suggested-user',
+        {
+          withCredentials : true
+        },
+      )
+      await setUsers(response.data.data)
+      
+    }catch(err){
+      console.log(err.message);
+      
+    }
+  }
+   useEffect(() => {
+    fetchUsers()
+  }, []);
+   
   return (
     <div className="space-y-6">
 
@@ -20,20 +43,22 @@ const RightSidebar = () => {
           Suggested Users
         </h2>
 
-        {[1, 2, 3].map((item) => (
+        {users.map((user) => (
           <div
-            key={item}
+            key={user._id}
             className="flex justify-between items-center mb-4"
           >
             <div className="flex gap-3 items-center">
-              <img
+              {/* <img
                 src={`https://i.pravatar.cc/150?img=${item}`}
                 className="w-10 h-10 rounded-full"
-              />
-
+              /> */}
+              <div className="w-16 h-16 rounded-full border-4 border-white bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center text-white text-3xl font-bold shadow-xl">
+              {user?.fullname?.charAt(0).toUpperCase()}
+            </div>
               <div>
-                <h3>User {item}</h3>
-                <p className="text-sm text-gray-500">@user{item}</p>
+                <h3>{user.fullname}</h3>
+                <p className="text-sm text-gray-500">@user{user.username}</p>
               </div>
             </div>
 
