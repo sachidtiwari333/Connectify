@@ -5,11 +5,20 @@ import { Post } from "../models/post.models.js";
 import { User } from "../models/user.models.js";
 import { log } from "console";
 
-const userController = (req, res) => {
+const userController = async (req, res) => {
   try {
+    const updatedUser = await User.findById(req.user._id)
+  .populate("followers", "fullname username")
+  .populate({
+    path: "posts",
+    populate: {
+      path: "createdBy",
+      select: "fullname username",
+    },
+  });
     return res
       .status(200)
-      .json(new ApiResponse(200, req.user, "User fetched successfully"));
+      .json(new ApiResponse(200, updatedUser, "User fetched successfully"));
   } catch (err) {
     throw new ApiError(500, err.message);
   }
@@ -54,7 +63,10 @@ const createPostController = async (req, res) => {
 
 const postsController = async (req, res) => {
   try {
-    const posts = await Post.find().populate("createdBy", "username, fullname");
+    const posts = await Post.find().populate(
+  "createdBy",
+  "username fullname"
+);
     return res
       .status(200)
       .json(new ApiResponse(200, posts, "Posts fetched successfully"));
@@ -87,14 +99,17 @@ const likeController = async (req, res) => {
 
 const suggestedUsersController = async (req, res) => {
   try {
-    const user = req.user
-    const allusers = await User.find({
-      _id : {$ne : user._id}
+    const currentUser = await User.findById(req.user._id);
+
+    const allUsers = await User.find({
+      _id: {
+        $nin: [currentUser._id, ...currentUser.followers],
+      },
     });
-    
+
     return res
       .status(200)
-      .json(new ApiResponse(200, allusers, "Users fetched successfully"));
+      .json(new ApiResponse(200, allUsers, "Users fetched successfully"));
   } catch (err) {
     throw new ApiError(500, err.message);
   }
@@ -115,25 +130,25 @@ const followUserController = async (req, res) => {
       throw new ApiError(409, "User cannot follow themselves");
     }
 
-    const alreadyFollowing = user.followers.some(
-      id => id.equals(follower._id)
-    )
-    if(alreadyFollowing){
-       throw new ApiError(409, "User already follow");
+    const alreadyFollowing = user.followers.some((id) =>
+      id.equals(follower._id),
+    );
+    if (alreadyFollowing) {
+      throw new ApiError(409, "User already follow");
     }
 
     user.followers.push(follower._id);
     await user.save();
-    
-    follower.following.push(user._id)
-    await follower.save()
-    
+
+    follower.following.push(user._id);
+    await follower.save();
+
     res
       .status(201)
       .json(new ApiResponse(201, user, "User followed sucessfully"));
   } catch (err) {
-    throw new ApiError(400, err.message)
-}
+    throw new ApiError(400, err.message);
+  }
 };
 
 export {

@@ -32,7 +32,7 @@ const Home = ({ user,posts }) => {
 
           {/* Right Sidebar */}
           <div className="hidden lg:block col-span-3 mt-9">
-            <RightSidebar />
+            <RightSidebar user={user} />
           </div>
 
         </div>

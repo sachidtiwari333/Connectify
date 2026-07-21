@@ -2,6 +2,7 @@ import axios from "axios";
 import { FaHeart, FaRegCommentDots, FaShare } from "react-icons/fa";
 
 const Posts = ({ posts }) => {
+  
   const likeHandler = async (postId) => {
     try {
       const response = await axios.post(
