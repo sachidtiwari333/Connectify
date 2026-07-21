@@ -87,7 +87,11 @@ const likeController = async (req, res) => {
 
 const suggestedUsersController = async (req, res) => {
   try {
-    const allusers = await User.find({});
+    const user = req.user
+    const allusers = await User.find({
+      _id : {$ne : user._id}
+    });
+    
     return res
       .status(200)
       .json(new ApiResponse(200, allusers, "Users fetched successfully"));
@@ -98,7 +102,7 @@ const suggestedUsersController = async (req, res) => {
 
 const followUserController = async (req, res) => {
   try {
-    const follower = req.user;
+    const follower = await User.findById(req.user._id);
     const { userId } = req.body;
     if (!userId) {
       throw new ApiError(400, "User is required");
@@ -107,7 +111,7 @@ const followUserController = async (req, res) => {
     if (!user) {
       throw new ApiError(404, "User not found");
     }
-    if (userId === follower._id.toString()) {
+    if (userId === follower) {
       throw new ApiError(409, "User cannot follow themselves");
     }
 
@@ -120,7 +124,7 @@ const followUserController = async (req, res) => {
 
     user.followers.push(follower._id);
     await user.save();
-
+    
     follower.following.push(user._id)
     await follower.save()
     
@@ -128,8 +132,8 @@ const followUserController = async (req, res) => {
       .status(201)
       .json(new ApiResponse(201, user, "User followed sucessfully"));
   } catch (err) {
-    throw new ApiError(400, err.message);
-  }
+    throw new ApiError(400, err.message)
+}
 };
 
 export {

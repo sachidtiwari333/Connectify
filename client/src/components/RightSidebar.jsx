@@ -18,6 +18,23 @@ const RightSidebar = () => {
       
     }
   }
+  const followUser = async(userId)=>{
+    try{
+      const response  = await axios.post(
+        'http://localhost:3000/api/v1/user/follow',
+        {
+          userId
+        },
+        {
+          withCredentials : true
+        }
+      )
+      console.log(response.data);
+      
+    }catch(err){
+      console.log(err.response?.data);
+    }
+  }
    useEffect(() => {
     fetchUsers()
   }, []);
@@ -62,7 +79,12 @@ const RightSidebar = () => {
               </div>
             </div>
 
-            <button className="bg-cyan-600 text-white px-3 py-1 rounded-full">
+            <button 
+            className="bg-cyan-600 text-white px-3 py-1 rounded-full"
+            onClick={()=>{
+              followUser(user._id)
+            }}
+            >
               Follow
             </button>
           </div>
