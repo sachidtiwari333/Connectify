@@ -29,7 +29,7 @@ const Posts = ({ posts }) => {
           className="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-100"
         >
           {/* Header */}
-          {post.createdBy.fullname && (
+          {post.createdBy?.fullname && (
             <div className="flex items-center gap-4 px-6 py-4">
               <div className="w-14 h-14 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 flex items-center justify-center text-white text-2xl font-bold shadow-md">
                 {post.createdBy.fullname.charAt(0).toUpperCase()}

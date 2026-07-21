@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 const RightSidebar = ({ user }) => {
   const [users, setUsers] = useState([]);
-
+  
   const fetchUsers = async () => {
     try {
       const response = await axios.get(
@@ -32,6 +32,22 @@ const RightSidebar = ({ user }) => {
       console.log(err.response?.data);
     }
   };
+
+  const unfollowUser = async (userId) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/user/unfollow",
+        {
+          followerId : userId,
+        },
+        {
+          withCredentials: true,
+        },
+      );
+    } catch (err) {
+      console.log(err.response?.data);
+    }
+  };
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -49,10 +65,41 @@ const RightSidebar = ({ user }) => {
         </div>
       </div>
       <div className="bg-white rounded-3xl shadow-lg p-6">
-        <h2 className="font-bold text-xl mb-4">Friends</h2>
-        {user?.followers.map((followers) => (
+        <h2 className="font-bold text-xl mb-4">Following</h2>
+        {user?.following?.map((following) => (
           <div
-            key={followers._id}
+            key={following?._id}
+            className="flex justify-between items-center mb-4"
+          >
+            <div className="flex gap-5 items-center">
+              <div className="w-16 h-16 rounded-full border-4 border-white bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center text-white text-3xl font-bold shadow-xl">
+                {following?.fullname?.charAt(0).toUpperCase()}
+              </div>
+              <div>
+                <h3>{following?.fullname}</h3>
+                <p className="text-sm text-gray-500">
+                  @{following?.username}
+                </p>
+              </div>
+            </div>
+            <div>
+              <button
+                className="bg-cyan-600 text-white px-3 py-1 rounded-full"
+                onClick={() => {
+                  unfollowUser(following._id)
+                }}
+              >
+                Unfollow
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="bg-white rounded-3xl shadow-lg p-6">
+        <h2 className="font-bold text-xl mb-4">Followers</h2>
+        {user?.followers?.map((followers) => (
+          <div
+            key={followers?._id}
             className="flex justify-between items-center mb-4"
           >
             <div className="flex gap-5 items-center">
@@ -60,18 +107,20 @@ const RightSidebar = ({ user }) => {
                 {followers?.fullname?.charAt(0).toUpperCase()}
               </div>
               <div>
-                <h3>{followers.fullname}</h3>
+                <h3>{followers?.fullname}</h3>
                 <p className="text-sm text-gray-500">
-                  @user{followers.username}
+                  @{followers?.username}
                 </p>
               </div>
             </div>
             <div>
               <button
                 className="bg-cyan-600 text-white px-3 py-1 rounded-full"
-                onClick={() => {}}
+                onClick={() => {
+                  followUser(followers._id)
+                }}
               >
-                Unfollow
+                follow
               </button>
             </div>
           </div>
