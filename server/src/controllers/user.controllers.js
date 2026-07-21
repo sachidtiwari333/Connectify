@@ -8,14 +8,15 @@ import { log } from "console";
 const userController = async (req, res) => {
   try {
     const updatedUser = await User.findById(req.user._id)
-  .populate("followers", "fullname username")
-  .populate({
-    path: "posts",
-    populate: {
-      path: "createdBy",
-      select: "fullname username",
-    },
-  });
+      .populate("followers", "fullname username")
+      .populate("following", "fullname username")
+      .populate({
+        path: "posts",
+        populate: {
+          path: "createdBy",
+          select: "fullname username",
+        },
+      });
     return res
       .status(200)
       .json(new ApiResponse(200, updatedUser, "User fetched successfully"));
@@ -63,10 +64,7 @@ const createPostController = async (req, res) => {
 
 const postsController = async (req, res) => {
   try {
-    const posts = await Post.find().populate(
-  "createdBy",
-  "username fullname"
-);
+    const posts = await Post.find().populate("createdBy", "username fullname");
     return res
       .status(200)
       .json(new ApiResponse(200, posts, "Posts fetched successfully"));
@@ -96,22 +94,35 @@ const likeController = async (req, res) => {
     throw new ApiError(400, err.message);
   }
 };
-
 const suggestedUsersController = async (req, res) => {
   try {
-    const currentUser = await User.findById(req.user._id);
+    // 1. Get the current logged-in user's data first to get their clean followers array
+    const currentUser = await User.findById(req.user._id).select("followers following");
+    
+    if (!currentUser) {
+      return res.status(404).json(new ApiError(404, "Current user not found"));
+    }
 
+    // 2. Fetch suggestions where the ID is NOT the current user AND NOT in their followers/following lists
+    // Mongoose maps the arrays cleanly behind the scenes here
     const allUsers = await User.find({
       _id: {
-        $nin: [currentUser._id, ...currentUser.followers],
-      },
-    });
+        $nin: [currentUser._id, ...currentUser.followers, ...currentUser.following]
+      }
+    })
+    .limit(10) // Best practice: Limit the recommendations size so your app stays fast
+    .select("-password"); // Security: Do not expose password hashes to the frontend
 
     return res
       .status(200)
-      .json(new ApiResponse(200, allUsers, "Users fetched successfully"));
+      .json(new ApiResponse(200, allUsers, "Suggested users fetched successfully"));
+
   } catch (err) {
-    throw new ApiError(500, err.message);
+    // Catch-all block ensures your server never hangs up or crashes
+    return res.status(err.statusCode || 500).json({
+      success: false,
+      message: err.message || "Internal Server Error"
+    });
   }
 };
 
@@ -151,6 +162,46 @@ const followUserController = async (req, res) => {
   }
 };
 
+const unfollowUserController = async (req, res) => {
+  try {
+    const { followerId } = req.body;
+
+    if (!followerId) {
+      // Assuming ApiError matches your custom error class footprint
+      return res.status(400).json(new ApiError(400, "FollowerId is required"));
+    }
+
+    // 1. Remove logged-in user from the target user's 'followers' array
+    // Mongoose automatically converts string/object IDs properly without .toString()
+    const follower = await User.findByIdAndUpdate(
+      followerId,
+      { $pull: { followers: req.user._id } }, 
+      { returnDocument: "after" }
+    );
+
+    // Check immediately if the target user was found
+    if (!follower) {
+      return res.status(404).json(new ApiError(404, "Target user not found"));
+    }
+
+    // 2. Remove the target user from the logged-in user's 'following' array
+    await User.findByIdAndUpdate(
+      req.user._id,
+      { $pull: { following: followerId } },
+      { returnDocument: "after" }
+    );
+
+    return res.status(200).json(new ApiResponse(200, {}, "User unfollowed successfully"));
+
+  } catch (err) {
+    // Avoid 'throw new ApiError' inside catch blocks to prevent express app crashes
+    return res.status(err.statusCode || 500).json({
+      success: false,
+      message: err.message || "Internal Server Error"
+    });
+  }
+};
+
 export {
   userController,
   createPostController,
@@ -158,4 +209,5 @@ export {
   likeController,
   suggestedUsersController,
   followUserController,
+  unfollowUserController,
 };
