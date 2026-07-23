@@ -53,7 +53,6 @@ const postsController = async (req, res) => {
   }
 };
 
-
 const likeController = async (req, res) => {
   try {
     const user = req.user;
@@ -76,8 +75,30 @@ const likeController = async (req, res) => {
   }
 };
 
+const commentController = async(req, res) =>{
+  try{
+    const {postId, text} = req.body
+    const post  = await Post.findById(postId)
+    if(!post){
+      throw new ApiError(400, "Post does not exist")
+    }
+    post.comments.push({
+      user : req.user._id,
+      text : text
+    })
+    await post.save()
+
+    res.status(200).json(
+      new ApiResponse(200, post, "Commented sucessfully")
+    )
+  }catch(err){
+    throw new ApiError(400,err.message)
+  }
+}
+
 export {
   createPostController,
   postsController,
   likeController,
+  commentController
 };

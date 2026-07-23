@@ -1,6 +1,6 @@
 import express from 'express'
 import authMiddleware from '../middlewares/authMiddleware.js'
-import { createPostController, likeController, postsController} from '../controllers/post.controllers.js'
+import { commentController, createPostController, likeController, postsController} from '../controllers/post.controllers.js'
 import { upload } from '../middlewares/multer.middleware.js'
 const postRouter = express.Router()
 
@@ -10,4 +10,5 @@ postRouter.get('/posts',authMiddleware, postsController)
 
 postRouter.post('/like', authMiddleware, likeController)
 
+postRouter.post('/comment', authMiddleware, commentController)
 export default postRouter
