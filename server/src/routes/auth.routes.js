@@ -3,13 +3,13 @@ import {registerController, loginController, logoutController, profileController
 import { asyncHandler } from '../utils/asyncHandler.js'
 import authMiddleware from '../middlewares/authMiddleware.js'
 
-const userRouter = express.Router()
+const authRouter = express.Router()
 
-userRouter.post('/register', asyncHandler(registerController))
-userRouter.post('/login', asyncHandler(loginController))
-userRouter.post('/logout',authMiddleware, asyncHandler(logoutController))
-userRouter.get('/profile',authMiddleware, asyncHandler(profileController))
+authRouter.post('/register', asyncHandler(registerController))
+authRouter.post('/login', asyncHandler(loginController))
+authRouter.post('/logout',authMiddleware, asyncHandler(logoutController))
+authRouter.get('/profile',authMiddleware, asyncHandler(profileController))
 
 
 
-export default userRouter
+export default authRouter

@@ -3,7 +3,9 @@ import { ApiError } from "../utils/apiError.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { Post } from "../models/post.models.js";
 import { User } from "../models/user.models.js";
-import { log } from "console";
+
+
+
 
 const userController = async (req, res) => {
   try {
@@ -25,75 +27,6 @@ const userController = async (req, res) => {
   }
 };
 
-const createPostController = async (req, res) => {
-  const { title } = req.body;
-
-  if (!title) {
-    throw new ApiError(400, "Title is required");
-  }
-
-  const user = await User.findById(req.user.id);
-
-  const imageLocalPath = req.files?.image?.[0]?.path;
-  const image = await uploadOnCloudinary(imageLocalPath);
-
-  const post = await Post.create({
-    title,
-    image: image.secure_url,
-    createdBy: user._id,
-  });
-
-  // Save the post reference in the user
-  user.posts.push(post);
-  await user.save();
-
-  // Populate the owner details
-  const postCreated = await Post.findById(post._id).populate(
-    "createdBy",
-    "fullname username",
-  );
-
-  if (!postCreated) {
-    throw new ApiError(400, "Something went wrong");
-  }
-
-  return res
-    .status(201)
-    .json(new ApiResponse(201, postCreated, "Post created successfully"));
-};
-
-const postsController = async (req, res) => {
-  try {
-    const posts = await Post.find().populate("createdBy", "username fullname");
-    return res
-      .status(200)
-      .json(new ApiResponse(200, posts, "Posts fetched successfully"));
-  } catch (err) {
-    throw new ApiError(500, err.message);
-  }
-};
-
-const likeController = async (req, res) => {
-  try {
-    const user = req.user;
-    const { postId } = req.body;
-
-    const post = await Post.findById(postId);
-
-    if (!post) {
-      throw new ApiError(400, "Post not found ");
-    }
-    if (post.likedBy.includes(user._id)) {
-      throw new ApiError(409, "User already liked");
-    }
-    post.likedBy.push(user._id);
-    await post.save();
-
-    res.status(201).json(new ApiResponse(200, post, "Post liked Sucessfully"));
-  } catch (err) {
-    throw new ApiError(400, err.message);
-  }
-};
 const suggestedUsersController = async (req, res) => {
   try {
     // 1. Get the current logged-in user's data first to get their clean followers array
@@ -107,7 +40,7 @@ const suggestedUsersController = async (req, res) => {
     // Mongoose maps the arrays cleanly behind the scenes here
     const allUsers = await User.find({
       _id: {
-        $nin: [currentUser._id, ...currentUser.followers, ...currentUser.following]
+        $nin: [currentUser._id,  ...currentUser.following]
       }
     })
     .limit(10) // Best practice: Limit the recommendations size so your app stays fast
@@ -165,7 +98,7 @@ const followUserController = async (req, res) => {
 const unfollowUserController = async (req, res) => {
   try {
     const { followerId } = req.body;
-
+     
     if (!followerId) {
       // Assuming ApiError matches your custom error class footprint
       return res.status(400).json(new ApiError(400, "FollowerId is required"));
@@ -183,7 +116,7 @@ const unfollowUserController = async (req, res) => {
     if (!follower) {
       return res.status(404).json(new ApiError(404, "Target user not found"));
     }
-
+    
     // 2. Remove the target user from the logged-in user's 'following' array
     await User.findByIdAndUpdate(
       req.user._id,
@@ -204,9 +137,6 @@ const unfollowUserController = async (req, res) => {
 
 export {
   userController,
-  createPostController,
-  postsController,
-  likeController,
   suggestedUsersController,
   followUserController,
   unfollowUserController,

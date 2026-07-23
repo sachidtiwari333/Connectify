@@ -6,7 +6,7 @@ const Posts = ({ posts }) => {
   const likeHandler = async (postId) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/user/like",
+        "http://localhost:3000/api/v1/user/post/like",
         {
           postId: postId,
         },

@@ -4,6 +4,8 @@ import userRouter from './routes/auth.routes.js'
 import { errorHandler } from './middlewares/errorHandler.js'
 import cookieParser from 'cookie-parser'
 import router from './routes/user.routes.js'
+import authRouter from './routes/auth.routes.js'
+import postRouter from './routes/post.routes.js'
 
 const app = express()
 
@@ -18,8 +20,10 @@ app.use(cookieParser());
 
 
 
-app.use('/api/v1/auth', userRouter)
+app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/user', router)
+app.use('/api/v1/user/post', postRouter)
+
 // Error handling middleware (must be last)
 app.use(errorHandler)
 

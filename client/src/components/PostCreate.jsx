@@ -14,7 +14,7 @@ const PostCreate = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/user/create-post",
+        "http://localhost:3000/api/v1/user/post/create-post",
         formData,
         {
           withCredentials: true,

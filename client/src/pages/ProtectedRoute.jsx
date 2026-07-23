@@ -32,7 +32,7 @@ const ProtectedRoute = ({ children }) => {
     const feedPosts = async()=>{
       try{
         const response = await axios.get(
-          'http://localhost:3000/api/v1/user/posts',
+          'http://localhost:3000/api/v1/user/post/posts',
           {
             withCredentials: true,
           }
