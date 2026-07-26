@@ -1,96 +1,144 @@
-import { Link } from "react-router-dom";
-import {
-  Home,
-  Search,
-  Bell,
-  MessageCircle,
-  User,
-} from "lucide-react";
-import LogoutButton from "./LogutButton";
+import { useState, useRef, useEffect } from "react";
 
-const Navbar = ({ success, avatar }) => {
+const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
-      <div className="max-w-7xl mx-auto h-20 px-6 flex items-center justify-between">
-
+    <nav className="bg-neutral-primary fixed top-0 start-0 z-20 w-full border-b border-default">
+      <div className="max-w-screen-xl mx-auto flex flex-wrap items-center justify-between p-4">
         {/* Logo */}
-        <Link
-          to="/"
-          className="text-3xl font-bold text-violet-600"
+        <a
+          href="https://flowbite.com/"
+          className="flex items-center space-x-3 rtl:space-x-reverse"
         >
-          Connectify
-        </Link>
-
-        {/* Search */}
-        <div className="hidden md:flex relative w-96">
-          <Search
-            size={20}
-            className="absolute left-4 top-3 text-gray-400"
+          <img
+            src="https://flowbite.com/docs/images/logo.svg"
+            className="h-7"
+            alt="Flowbite Logo"
           />
+          <span className="self-center whitespace-nowrap text-xl font-semibold text-heading">
+            Flowbite
+          </span>
+        </a>
 
-          <input
-            type="text"
-            placeholder="Search for people, posts..."
-            className="w-full bg-gray-100 rounded-full py-3 pl-12 pr-4 outline-none focus:ring-2 focus:ring-violet-400"
-          />
+        {/* Right Side */}
+        <div className="relative flex items-center space-x-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
+          {/* User Button */}
+          <button
+            type="button"
+            onClick={() => setIsDropdownOpen((prev) => !prev)}
+            className="flex rounded-full bg-neutral-primary text-sm focus:ring-4 focus:ring-neutral-tertiary md:me-0"
+          >
+            <span className="sr-only">Open user menu</span>
+            <img
+              className="h-8 w-8 rounded-full"
+              src="/docs/images/people/profile-picture-5.jpg"
+              alt="User"
+            />
+          </button>
+
+          {/* User Dropdown */}
+          {isDropdownOpen && (
+            <div
+              ref={dropdownRef}
+              className="absolute right-0 top-12 z-50 w-44 rounded-base border border-default-medium bg-neutral-primary-medium shadow-lg"
+            >
+              <div className="border-b border-default px-4 py-3 text-sm">
+                <span className="block font-medium text-heading">
+                  Joseph McFall
+                </span>
+                <span className="block truncate text-body">
+                  name@flowbite.com
+                </span>
+              </div>
+
+              <ul className="p-2 text-sm font-medium text-body">
+                {["Dashboard", "Settings", "Earnings", "Sign out"].map(
+                  (item) => (
+                    <li key={item}>
+                      <a
+                        href="#"
+                        className="inline-flex w-full items-center rounded p-2 hover:bg-neutral-tertiary-medium hover:text-heading"
+                      >
+                        {item}
+                      </a>
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
+          )}
+
+          {/* Mobile Menu Button */}
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-base p-2 text-sm text-body hover:bg-neutral-secondary-soft hover:text-heading focus:outline-none focus:ring-2 focus:ring-neutral-tertiary md:hidden"
+          >
+            <span className="sr-only">Open main menu</span>
+            <svg
+              className="h-6 w-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth={2}
+                d="M5 7h14M5 12h14M5 17h14"
+              />
+            </svg>
+          </button>
         </div>
 
-        {/* Right Section */}
-        <div className="flex items-center gap-6">
-
-          <Link
-            to="/home"
-            className="p-2 rounded-full hover:bg-violet-100 transition"
-          >
-            <Home className="text-violet-600" />
-          </Link>
-
-          {success ? (
-            <>
-              <Link
-                to="/profile"
-                className="p-2 rounded-full hover:bg-violet-100 transition"
+        {/* Navigation */}
+        <div
+          className={`${
+            isMenuOpen ? "block" : "hidden"
+          } w-full items-center justify-between md:order-1 md:flex md:w-auto`}
+        >
+          <ul className="mt-4 flex flex-col rounded-base border border-default bg-neutral-secondary-soft p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-neutral-primary rtl:space-x-reverse">
+            <li>
+              <a
+                href="#"
+                className="block rounded bg-brand px-3 py-2 text-white md:bg-transparent md:p-0 md:text-fg-brand"
               >
-                <User className="text-gray-700" />
-              </Link>
+                Home
+              </a>
+            </li>
 
-              <button className="relative p-2 rounded-full hover:bg-violet-100">
-                <Bell className="text-gray-700" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs h-5 w-5 rounded-full flex items-center justify-center">
-                  3
-                </span>
-              </button>
-
-              <button className="p-2 rounded-full hover:bg-violet-100">
-                <MessageCircle className="text-gray-700" />
-              </button>
-
-              {/* Avatar */}
-              <Link to="/profile">
-                <div className="w-11 h-11 rounded-full bg-gradient-to-r from-violet-500 to-cyan-500 flex items-center justify-center text-white font-bold text-lg cursor-pointer hover:scale-105 transition">
-                  {avatar}
-                </div>
-              </Link>
-
-              <LogoutButton />
-            </>
-          ) : (
-            <>
-              <Link
-                to="/login"
-                className="font-medium text-gray-700 hover:text-violet-600"
-              >
-                Login
-              </Link>
-
-              <Link
-                to="/register"
-                className="bg-violet-600 hover:bg-violet-700 text-white px-5 py-2 rounded-full transition"
-              >
-                Register
-              </Link>
-            </>
-          )}
+            {["About", "Services", "Pricing", "Contact"].map((item) => (
+              <li key={item}>
+                <a
+                  href="#"
+                  className="block rounded px-3 py-2 text-heading hover:bg-neutral-tertiary md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-fg-brand"
+                >
+                  {item}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </nav>

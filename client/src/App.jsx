@@ -1,12 +1,16 @@
 import { ToastContainer, Bounce } from "react-toastify";
 import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home.jsx";
-import Register from './pages/register.jsx';
-import Login from './pages/Login.jsx';
+
+import Home from "./pages/Home";
+import Register from "./pages/register";
+import Login from "./pages/Login";
+import Landing from "./pages/Landing";
+import Profile from "./components/Profile";
+import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
+
 import "react-toastify/dist/ReactToastify.css";
-import Landing from "./pages/Landing.jsx";
-import ProtectedRoute from "./pages/ProtectedRoute.jsx";
-import Profile from "./components/Profile.jsx"
+
 const App = () => {
   return (
     <>
@@ -19,18 +23,30 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/home" element={
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-          } />
-          <Route path="/profile" element={
-          <ProtectedRoute>
-            <Profile />
-          </ProtectedRoute>
-          } />
+
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        {/* Catch all unknown routes */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

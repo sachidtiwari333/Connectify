@@ -5,9 +5,17 @@ import { Post } from "../models/post.models.js";
 import { User } from "../models/user.models.js";
 
 
+const homeController = (req, res)=>{
+  try{
+    res.status(200).json(
+      new ApiResponse(200, req.user, "Welcome to connectify" )
+    )
+  }catch(err){
+    throw new ApiError(400, err.message)
+  }
+}
 
-
-const userController = async (req, res) => {
+const profileController = async (req, res) => {
   try {
     const updatedUser = await User.findById(req.params.id)
       .populate("followers", "fullname username")
@@ -136,7 +144,8 @@ const unfollowUserController = async (req, res) => {
 };
 
 export {
-  userController,
+  homeController,
+  profileController,
   suggestedUsersController,
   followUserController,
   unfollowUserController,
