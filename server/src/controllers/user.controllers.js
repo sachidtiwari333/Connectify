@@ -9,7 +9,7 @@ import { User } from "../models/user.models.js";
 
 const userController = async (req, res) => {
   try {
-    const updatedUser = await User.findById(req.user._id)
+    const updatedUser = await User.findById(req.params.id)
       .populate("followers", "fullname username")
       .populate("following", "fullname username")
       .populate({
