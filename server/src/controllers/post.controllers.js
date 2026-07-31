@@ -16,7 +16,7 @@ const createPostController = async (req, res) => {
 
   const imageLocalPath = req.files?.image?.[0]?.path;
   const image = await uploadOnCloudinary(imageLocalPath);
-
+  
   const post = await Post.create({
     title,
     image: image.secure_url,
