@@ -23,7 +23,23 @@ const userSchema = new mongoose.Schema({
     required : true,
     trim : true
   },
-  description : {
+  bio : {
+    type : String
+  },
+  tags : [
+    {
+      type : String
+    }
+  ],
+  hobbies : [
+    {
+      type : String
+    }
+  ],
+  profileImage : {
+    type : String
+  },
+  coverImage : {
     type : String
   },
   posts: [

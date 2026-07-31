@@ -5,7 +5,7 @@ import { ApiResponse } from "../utils/apiResponse.js";
 import jwt from "jsonwebtoken";
 
 const registerController = async (req, res) => {
-  const { fullname, username, email, password } = req.body;
+  const { fullname, username, email, password, bio, tags, hobbies } = req.body;
 
   if (
     [fullname, username, email, password].some(
@@ -30,6 +30,9 @@ const registerController = async (req, res) => {
     username,
     email,
     password: hashedPassword,
+    bio,
+    tags,
+    hobbies
   });
 
   const token = jwt.sign(
