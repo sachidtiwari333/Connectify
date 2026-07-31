@@ -2,7 +2,7 @@ import { ToastContainer, Bounce } from "react-toastify";
 import { Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
-import Register from "./pages/register";
+import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Landing from "./pages/Landing";
 import Profile from "./components/Profile";
@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import "react-toastify/dist/ReactToastify.css";
+
 
 const App = () => {
   return (
