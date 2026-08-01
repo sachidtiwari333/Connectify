@@ -1,123 +1,87 @@
-import axios from 'axios'
-import { useState } from 'react'
-import { toast, Bounce } from "react-toastify";
-import { useNavigate, Link } from "react-router-dom";
-import ImageSlider from '../components/ImageSlider';
-import { Eye, EyeOff } from "lucide-react";
-const Login = () => {
-  const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const handleSubmit = async(e) => {
-    e.preventDefault()
-    // handle signin logic
-    
-    try{
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/auth/login",
-        {
-          email,
-          password,
-        },
-        {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-      console.log(response);
-      
-      toast.success("🎉 User Sign-In successfully!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
-      localStorage.setItem("token", response.data.token);
-      navigate("/home");
-      
-    }catch(err){
-      toast.error(err.response?.data?.message || "Sign-In failed", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
-    }
-  }
+import { Mail, Lock } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub, FaApple } from "react-icons/fa";
 
+const Register = () => {
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <ImageSlider />
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
-        
+    <div className="bg-gradient-to-b from-gray-800 to-black flex items-center justify-center h-screen ">
+      <div className="p-8 flex flex-col items-start gap-5 justify-center mt-6 bg-gray-800 text-white rounded-2xl w-130 mb-6">
+        <div className="">
+          <h1 className="text-2xl">Welcome Back !</h1>
+          <p className="text-gray-300 mt-2">login to continue connectify</p>
         </div>
-        <form className="mt-8 space-y-6 bg-white p-8 rounded-lg shadow" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="email-address" className="sr-only">Email address</label>
+
+        <form action="" className="flex flex-col gap-6 w-full">
+          <div>
+            <label htmlFor="fullname">Email Address</label>
+            <div className="relative w-full mt-1">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                <Mail className="w-5 h-5 text-gray-400" />
+              </div>
               <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-xl border border-gray-300 px-4 py-3 pr-12 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                placeholder="Email address"
+                type="text"
+                placeholder="Enter your full name"
+                className="rounded px-10 py-1 border-2 border-gray-500 w-full "
               />
             </div>
-            <div className="relative mt-6">
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-xl border border-gray-300 px-4 py-3 pr-12 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                required
-              />
-
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-blue-600"
-              >
-                {showPassword ? (
-                  <EyeOff size={20} />
-                ) : (
-                  <Eye size={20} />
-                )}
-              </button>
-            </div>
-          </div>
-
-          <div className="flex gap-3 justify-end">
-            <p>Doesn't have an account ?</p>
-            <Link to='/register' className='text-blue-400 underline'>Register</Link>
           </div>
 
           <div>
-            <button type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              Sign in
-            </button>
+            <label htmlFor="fullname">Password</label>
+            <div className="relative w-full mt-1">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                <Lock className="w-5 h-5 text-gray-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="Enter your username"
+                className="rounded px-10 py-1 border-2 border-gray-500 w-full "
+              />
+            </div>
           </div>
 
-          
+          <div className="flex gap-3">
+            <input
+              type="checkbox"
+              name="agrement"
+              className="accent-green-400 h-7"
+            />
+            <p>
+              I agree with{" "}
+              <span className="text-blue-400">Terms of Services </span> and{" "}
+              <span className="text-blue-400">Privacy Policy </span>{" "}
+            </p>
+          </div>
+
+          <button className="flex gap-3 bg-green-700 py-3 rounded-xl items-center justify-center text-xl active:scale-95 hover:bg-green-800">
+            Login
+          </button>
         </form>
+
+        <div className="flex items-center my-6">
+          <div className="flex-1 border-t border-gray-600 w-100"></div>
+
+          <span className="px-4 text-sm text-gray-500">OR</span>
+
+          <div className="flex-1 border-t border-gray-600"></div>
+        </div>
+        <div className="flex gap-9">
+          <button className="flex gap-3 border-2 border-gray-500 px-5 py-2 rounded-xl hover:bg-gray-900 active:scale-95">
+            <FcGoogle size={22} />
+            Google
+          </button>
+          <button className="flex gap-3 border-2 border-gray-500 px-5 py-2 rounded-xl hover:bg-gray-900 active:scale-95">
+            <FaGithub size={22} />
+            Github
+          </button>
+          <button className="flex gap-3 border-2 border-gray-500 px-5 py-2 rounded-xl hover:bg-gray-900 active:scale-95">
+            <FaApple size={22} />
+            Apple
+          </button>
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Register;
