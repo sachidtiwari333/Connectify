@@ -10,14 +10,14 @@ const UserProfileDetails = () => {
 
       <p className="whitespace-pre-wrap max-w-100">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae expedita atque incidunt deserunt, </p>
       <p className="flex gap-2">
-        <button className="border-2 border-gray-500  font-semibold rounded-2xl transition hover:scale-95 px-2 py-1 animate-float">Travelling</button>
-        <button className="border-2 border-gray-500  font-semibold rounded-2xl transition hover:scale-95 px-2 py-1 animate-float">Running</button>
-        <button className="border-2 border-gray-500  font-semibold rounded-2xl transition hover:scale-95 px-2 py-1 animate-float">Gaming</button>
+        <button className="border-2 border-gray-500  font-semibold rounded-2xl transition hover:scale-95 px-2 py-1  ">Travelling</button>
+        <button className="border-2 border-gray-500  font-semibold rounded-2xl transition hover:scale-95 px-2 py-1  ">Running</button>
+        <button className="border-2 border-gray-500  font-semibold rounded-2xl transition hover:scale-95 px-2 py-1  ">Gaming</button>
       </p>
       <p className="flex gap-2 ">
-        <button className="border-2 border-gray-500  font-semibold rounded-2xl transition hover:scale-95 px-2 py-1 animate-float">Traveller</button>
-        <button className="border-2 border-gray-500  font-semibold rounded-2xl transition hover:scale-95 px-2 py-1 animate-float">Gamer</button>
-        <button className="border-2 border-gray-500  font-semibold rounded-2xl transition hover:scale-95 px-2 py-1 animate-float">Photgrapher</button>
+        <button className="border-2 border-gray-500  font-semibold rounded-2xl transition hover:scale-95 px-2 py-1  ">Traveller</button>
+        <button className="border-2 border-gray-500  font-semibold rounded-2xl transition hover:scale-95 px-2 py-1  ">Gamer</button>
+        <button className="border-2 border-gray-500  font-semibold rounded-2xl transition hover:scale-95 px-2 py-1  ">Photgrapher</button>
       </p>
       <p className="flex text-gray-600 gap-2"><SquarePlus />Join July 2026</p>
       <div className="flex gap-4">
