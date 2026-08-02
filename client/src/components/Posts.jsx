@@ -2,8 +2,8 @@ import { Ellipsis, Heart, Bookmark,MessageCircle,Download } from "lucide-react";
 
 const Posts = () => {
   return (
-    <div className="w-full flex flex-col gap-5">
-      <div className="flex flex-col rounded-2xl justify-center items-center border-2 border-gray-400 p-5 max-w-180 gap-3">
+    <div className="w-full md:w-full  flex flex-col gap-5 items-center lg:items-start lg:p-10">
+      <div className="flex flex-col rounded-2xl justify-center items-center border-2 border-gray-400 p-5 max-w-180 gap-3 md:w-full w-90">
         <div className="flex items-center justify-between w-full ">
           <div className="flex gap-3">
             <img
@@ -27,7 +27,7 @@ const Posts = () => {
           <Download />
         </div>
       </div>
-      <div className="flex flex-col rounded-2xl justify-center items-center border-2 border-gray-400 p-5 max-w-180 gap-3">
+      <div className="flex flex-col rounded-2xl justify-center items-center border-2 border-gray-400 p-5 max-w-180 gap-3  md:w-full w-90">
         <div className="flex items-center justify-between w-full ">
           <div className="flex gap-3">
             <img
@@ -51,7 +51,7 @@ const Posts = () => {
           <Download />
         </div>
       </div>
-      <div className="flex flex-col rounded-2xl justify-center items-center border-2 border-gray-400 p-5 max-w-180 gap-3">
+      <div className="flex flex-col rounded-2xl justify-center items-center border-2 border-gray-400 p-5 max-w-180 gap-3  md:w-full w-90">
         <div className="flex items-center justify-between w-full ">
           <div className="flex gap-3">
             <img
