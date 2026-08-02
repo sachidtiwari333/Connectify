@@ -4,7 +4,7 @@ import {
   Telescope,
   Bell,
   MessageSquareText,
-  ScrollText,
+  Bookmark,
   User,
   CircleEllipsis,
   Pencil,
@@ -13,11 +13,23 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 
 const LeftSideNavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation()
+  const pathname = location.pathname
+  
+  const linkness = (type) =>{
+    let classes = 'flex gap-3 items-center hover:bg-gray-600 px-3 py-2 rounded-xl w-full'
+    if(pathname.startsWith(type)){
+      classes += ' bg-green-700'
 
+      
+    }
+    return classes
+  }
   return (
     <>
       {/* ================= MOBILE ================= */}
@@ -77,8 +89,8 @@ const LeftSideNavBar = () => {
           </button>
 
           <button className="flex gap-3 items-center hover:bg-gray-600 px-3 py-2 rounded-xl w-full">
-            <ScrollText size={20} />
-            List
+            <Bookmark size={20} />
+            Bookmarks
           </button>
 
           <button className="flex gap-3 items-center hover:bg-gray-600 px-3 py-2 rounded-xl w-full">
@@ -124,7 +136,7 @@ const LeftSideNavBar = () => {
             </button>
 
             <button className="flex items-center justify-center hover:bg-gray-600 px-3 py-2 rounded-xl w-full">
-              <ScrollText size={20} />
+              <Bookmark size={20} />
             </button>
 
             <button className="flex items-center justify-center hover:bg-gray-600 px-3 py-2 rounded-xl w-full">
@@ -157,35 +169,35 @@ const LeftSideNavBar = () => {
               Connectify
             </h1>
 
-            <button className="flex gap-3 items-center hover:bg-gray-600 px-3 py-2 rounded-xl w-full">
+            <Link to="/home" className={linkness('/home')}>
               <House size={20} />
               Home
-            </button>
+            </Link>
 
-            <button className="flex gap-3 items-center hover:bg-gray-600 px-3 py-2 rounded-xl w-full">
+            <Link to='/explore' className="flex gap-3 items-center hover:bg-gray-600 px-3 py-2 rounded-xl w-full">
               <Telescope size={20} />
               Explore
-            </button>
+            </Link>
 
-            <button className="flex gap-3 items-center hover:bg-gray-600 px-3 py-2 rounded-xl w-full">
+            <Link to='/notifactions' className="flex gap-3 items-center hover:bg-gray-600 px-3 py-2 rounded-xl w-full">
               <Bell size={20} />
               Notifications
-            </button>
+            </Link>
 
-            <button className="flex gap-3 items-center hover:bg-gray-600 px-3 py-2 rounded-xl w-full">
+            <Link to='/messages' className="flex gap-3 items-center hover:bg-gray-600 px-3 py-2 rounded-xl w-full">
               <MessageSquareText size={20} />
               Messages
-            </button>
+            </Link>
 
-            <button className="flex gap-3 items-center hover:bg-gray-600 px-3 py-2 rounded-xl w-full">
-              <ScrollText size={20} />
-              List
-            </button>
+            <Link to='/bookmarks' className="flex gap-3 items-center hover:bg-gray-600 px-3 py-2 rounded-xl w-full">
+              <Bookmark size={20} />
+              Bookmarks
+            </Link>
 
-            <button className="flex gap-3 items-center hover:bg-gray-600 px-3 py-2 rounded-xl w-full">
+            <Link to="/profile"  className={linkness('/profile')}>
               <User size={20} />
               Profile
-            </button>
+            </Link>
 
             <button className="flex gap-3 items-center hover:bg-gray-600 px-3 py-2 rounded-xl w-full">
               <CircleEllipsis size={20} />
