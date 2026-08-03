@@ -30,7 +30,7 @@ const createPostController = async (req, res) => {
   // Populate the owner details
   const postCreated = await Post.findById(post._id).populate(
     "createdBy",
-    "fullname username",
+    "fullname username profileImage",
   );
 
   if (!postCreated) {

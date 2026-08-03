@@ -169,7 +169,7 @@ const LeftSideNavBar = () => {
               Connectify
             </h1>
 
-            <Link to="/home" className={linkness('/home')}>
+            <Link to="/" className={linkness('/home')}>
               <House size={20} />
               Home
             </Link>

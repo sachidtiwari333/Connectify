@@ -32,7 +32,9 @@ const registerController = async (req, res) => {
     password: hashedPassword,
     bio,
     tags,
-    hobbies
+    hobbies,
+    profileImage,
+    coverImage
   });
 
   const token = jwt.sign(
