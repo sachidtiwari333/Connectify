@@ -11,11 +11,49 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub, FaApple } from "react-icons/fa";
 import TagInput from "../components/TagInput";
 import { useState } from "react";
+import axios from 'axios'
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [tags, setTags] = useState([]);
-  const [hobbies, setHobbies] = useState([]);
+  const [hobbies, setHobbies] = useState([])
+  const [fullname, setFullname] = useState()
+  const [username, setUsername] = useState()
+  const [email, setEmail] = useState()
+  const [password , setPassword] = useState()
+  const [bio, setBio] = useState()
+  const navigate = useNavigate()
+  const submitHandler = async(e) =>{
+    e.preventDefault()
+    try{
+      const response = await axios.post(
+        'http://localhost:3000/api/v1/auth/register',
+        {
+          fullname,
+          username,
+          email,
+          password,
+          bio,
+          tags,
+          hobbies
+        },
+        {
+          withCredentials : true,
+          headers  : {
+            "Content-Type" : "application/json",
+          }
+        }
 
+    )
+    console.log(response);
+    navigate('/')
+  }catch(err){
+      console.log(err);
+      
+    }
+    console.log("Form submitted");
+    
+  }
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-800 to-black flex items-center justify-center px-4 sm:px-6 py-6">
       <div className="p-5 sm:p-8 flex flex-col items-start gap-5 justify-center bg-gray-800 text-white rounded-2xl w-full max-w-[520px]">
@@ -26,7 +64,9 @@ const Register = () => {
           </p>
         </div>
 
-        <form action="" className="flex flex-col gap-6 w-full">
+        <form action="" className="flex flex-col gap-6 w-full" onSubmit={(e)=>{
+          submitHandler(e)
+        }}>
           <div>
             <label htmlFor="fullname">Full Name</label>
             <div className="relative w-full mt-1">
@@ -35,6 +75,10 @@ const Register = () => {
               </div>
               <input
                 type="text"
+                value={fullname}
+                onChange={(e)=>{
+                  setFullname(e.target.value)
+                }}
                 placeholder="Enter your full name"
                 className="rounded px-10 py-2 border-2 border-gray-500 w-full focus:outline-none focus:ring-0"
               />
@@ -49,6 +93,10 @@ const Register = () => {
               </div>
               <input
                 type="text"
+                value={username}
+                onChange={(e)=>{
+                  setUsername(e.target.value)
+                }}
                 placeholder="Enter your username"
                 className="rounded px-10 py-2 border-2 border-gray-500 w-full focus:outline-none focus:ring-0"
               />
@@ -66,6 +114,10 @@ const Register = () => {
               </div>
               <input
                 type="text"
+                value={email}
+                onChange={(e)=>{
+                  setEmail(e.target.value)
+                }}
                 placeholder="Enter your full name"
                 className="rounded px-10 py-2 border-2 border-gray-500 w-full focus:outline-none focus:ring-0"
               />
@@ -80,6 +132,10 @@ const Register = () => {
               </div>
               <input
                 type="text"
+                 value={password}
+                onChange={(e)=>{
+                  setPassword(e.target.value)
+                }}
                 placeholder="Enter your username"
                 className="rounded px-10 py-2 border-2 border-gray-500 w-full focus:outline-none focus:ring-0"
               />
@@ -92,6 +148,10 @@ const Register = () => {
           <div className="flex flex-col gap-2 w-full">
             <label htmlFor="bio">Bio</label>
             <textarea
+             value={bio}
+                onChange={(e)=>{
+                  setBio(e.target.value)
+                }}
               placeholder="Tell us something about yourself ..."
               className="border-2 border-gray-500 p-3 rounded-xl w-full resize-none focus:outline-none focus:ring-0"
               maxLength={150}
@@ -144,7 +204,7 @@ const Register = () => {
             </p>
           </div>
 
-          <button className="flex gap-3 bg-green-700 py-3 px-4 rounded-xl items-center justify-center text-lg sm:text-xl active:scale-95 hover:bg-green-800 w-full">
+          <button type="submit" className="flex gap-3 bg-green-700 py-3 px-4 rounded-xl items-center justify-center text-lg sm:text-xl active:scale-95 hover:bg-green-800 w-full">
             <UserRoundPlus className="w-5 h-5" />
             Create Account
           </button>
