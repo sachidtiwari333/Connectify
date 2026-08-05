@@ -18,7 +18,6 @@ const Home = () => {
             withCredentials: true,
           },
         );
-        console.log(response);
         setPosts(response.data.data);
       } catch (err) {
         console.log(err);

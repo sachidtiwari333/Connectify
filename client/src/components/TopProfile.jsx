@@ -1,24 +1,45 @@
-import { SquarePen } from "lucide-react"
- 
+import { SquarePen } from "lucide-react";
+import { Link } from "react-router-dom";
 
-const TopProfile = () => {
+const TopProfile = (props) => {
   return (
     <div className="relative">
-      <div className="w-full h-60 bg-[url(https://plus.unsplash.com/premium_photo-1712685912272-96569030d1d7?q=80&w=1175&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] bg-cover bg-center relative">
-        <button className="absolute right-0 bottom-0 px-5 py-2 m-5 border-2 border-gray-800 rounded-3xl hidden md:block lg:block ">Edit Profile</button>
-        <button className="absolute right-0 bottom-0 m-5 rounded-3xl md:hidden"><SquarePen size={22} /></button>
+      <div
+        className={`w-full h-60 bg-cover bg-center relative ${!props.coverImage ? "bg-gray-900" : ""}`}
+        style={
+          props.coverImage
+            ? { backgroundImage: `url('${props.coverImage}')` }
+            : {}
+        }
+      >
+        <Link
+          to="/profile/edit"
+          className="absolute right-0 bottom-0 px-5 py-2 m-5 border-2 border-gray-800 rounded-3xl hidden md:block lg:block "
+        >
+          Edit Profile
+        </Link>
+        <button className="absolute right-0 bottom-0 m-5 rounded-3xl md:hidden">
+          <SquarePen size={22} />
+        </button>
       </div>
-      <img
-      src="https://img.magnific.com/premium-vector/business-man-avatar-profile_1133257-2431.jpg?semt=ais_hybrid&w=740&q=80"
-      alt="Profile Image"
-      className="w-25 md:w-35 lg:w-40 rounded-full -mt-12 md:-mt-15 lg:-mt-20 border-4 border-amber-200 ml-10 absolute sticky"
-      />
+      {props.profileImage ? (
+        <img
+          src={props.profileImage}
+          alt="Profile Image"
+          className="w-25 md:w-35 lg:w-40 rounded-full -mt-12 md:-mt-15 lg:-mt-20 border-4 border-amber-200 ml-10 absolute sticky"
+        />
+      ) : (
+        <img
+          src="https://img.magnific.com/premium-vector/business-man-avatar-profile_1133257-2431.jpg?semt=ais_hybrid&w=740&q=80"
+          alt="profile"
+          className="w-25 md:w-35 lg:w-40 rounded-full -mt-12 md:-mt-15 lg:-mt-20 border-4 border-amber-200 ml-10 absolute sticky"
+        />
+      )}
     </div>
-  )
-    
-}
+  );
+};
 
-export default TopProfile
+export default TopProfile;
 
 // <div className="relative w-full">
 //           Cover Image
@@ -51,7 +72,6 @@ export default TopProfile
 //                   />
 //                 </div>
 //               </div>
-
 
 //               <div className="mb-2">
 

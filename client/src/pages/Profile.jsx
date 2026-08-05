@@ -25,11 +25,10 @@ const Profile = () => {
     return classes;
   };
 
-  console.log(user);
   
   return (
     <div className="w-full">
-      <TopProfile  />
+      <TopProfile profileImage = {user.profileImage} coverImage = {user.coverImage} />
       <UserProfileDetails user = {user} />
       <div className="flex justify-between p-10">
         <Link to="/profile" className={Linkness("/profile")}>

@@ -9,7 +9,8 @@ import LeftSideNavBar from "./components/LeftSideNavBar";
 import Followers from "./components/Followers";
 import Following from "./components/Following";
 import Post from "./components/Post";
-// import { useAuth } from "./context/AuthContext";
+import EditProfile from "./pages/EditProfile";
+
 const App = () => {
 
   return (
@@ -23,6 +24,7 @@ const App = () => {
             <Route path="" element={<Post />} />
             <Route path="followers" element={<Followers />} />
             <Route path="following" element={<Following />} />
+            <Route path="edit" element = {<EditProfile />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
