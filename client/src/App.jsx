@@ -11,9 +11,10 @@ import NotFound from "./pages/NotFound";
 import "react-toastify/dist/ReactToastify.css";
 import Profile from "./pages/Profile";
 import LeftSideNavBar from "./components/LeftSideNavBar";
-import Posts from "./components/Posts";
+// import Posts from "./components/Posts";
 import Followers from "./components/Followers";
-import { Following } from "./components/Following";
+import  Following  from "./components/Following";
+import UserPosts from "./components/UserPosts";
 
 
 const App = () => {
@@ -24,8 +25,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />}>
-        <Route path="" element={<Posts />} />
-          <Route path="" element={<Posts />} />
+        <Route path="" element={<UserPosts />} />
+          <Route path="" element={<UserPosts />} />
           <Route path="followers" element={<Followers />} />
           <Route path="following" element={<Following />} />
         </Route>

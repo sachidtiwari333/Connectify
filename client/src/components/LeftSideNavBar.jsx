@@ -13,6 +13,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
+
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 
@@ -216,7 +217,7 @@ const LeftSideNavBar = () => {
               <CircleUserRound size={40} />
 
               <div className="flex flex-col">
-                <p>Full Name</p>
+                <p>fullname</p>
                 <p className="-mt-2">@username</p>
               </div>
             </div>

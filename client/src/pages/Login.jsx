@@ -4,15 +4,16 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub, FaApple } from "react-icons/fa";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
-
+  const navigate = useNavigate()
   const submitHandler = async(e) =>{
     e.preventDefault()
     try{
-      axios.post(
+      const response = await axios.post(
         'http://localhost:3000/api/v1/auth/login',
         {
           email,
@@ -24,6 +25,8 @@ const Login = () => {
           }
         }
       )
+      navigate('/')
+      
     }catch(err){
       console.log(err);
       

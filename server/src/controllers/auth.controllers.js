@@ -33,8 +33,6 @@ const registerController = async (req, res) => {
     bio,
     tags,
     hobbies,
-    profileImage,
-    coverImage
   });
 
   const token = jwt.sign(

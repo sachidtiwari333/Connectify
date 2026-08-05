@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import {
   Ellipsis,
   Heart,
@@ -6,34 +6,21 @@ import {
   MessageCircle,
   Download,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
-const Posts = () => {
-  const [posts, setPosts] = useState([]);
+const UserPosts = () => {
 
-  useEffect(() => {
-    const feed = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/v1/user/post/posts",
-          {
-            withCredentials: true,
-          },
-        );
-        setPosts(response.data.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    feed();
-  }, []);
-  console.log(posts);
-
+  const {user, loading} = useAuth()
+  if(!user) {
+    return <h1>Login first</h1>
+  }
+  if(loading){
+    return <h1>Loading ...</h1>
+  }
   return (
     <div className="w-full md:w-full  flex flex-col gap-5 items-center lg:items-start lg:p-10">
-      {posts?.map((post, index) => {
+      {user?.posts?.map((post, index) => {
         // ✅ Safely access the author, fallback to an empty object if missing
-        const author = post.createdBy || {};
 
         return (
           <div
@@ -44,17 +31,17 @@ const Posts = () => {
               <div className="flex gap-3">
                 {
                   // ✅ Check if author AND profileImage exist
-                  author.profileImage ? (
+                  post.createdBy.profileImage ? (
                     <img
-                      src={author.profileImage}
+                      src={post.createdBy.profileImage}
                       alt=""
                       className="w-12 rounded-full"
                     />
                   ) : (
                     // ✅ Also safely access fullname for the fallback initial
                     <h1 className="w-12 h-12 flex items-center justify-center bg-gray-200 rounded-full">
-                      {author.fullname
-                        ? author.fullname.charAt(0).toUpperCase()
+                      {post.createdBy.fullname
+                        ? post.createdBy.fullname.charAt(0).toUpperCase()
                         : "?"}
                     </h1>
                   )
@@ -62,9 +49,9 @@ const Posts = () => {
 
                 <div className="flex flex-col ">
                   {/* ✅ Optional chaining prevents crash if author is missing */}
-                  <p className="text-md">{author.fullname || "Unknown User"}</p>
+                  <p className="text-md">{post.createdBy.fullname}</p>
                   <p className="-mt-1 text-sm text-gray-700">
-                    @{author.username || "unknown"}
+                    @{post.createdBy.username }
                   </p>
                 </div>
               </div>
@@ -118,4 +105,4 @@ const Posts = () => {
   );
 };
 
-export default Posts;
+export default UserPosts;
