@@ -9,13 +9,13 @@ import {
   CircleEllipsis,
   Pencil,
   CircleUserRound,
-  EllipsisVertical,
   Menu,
   X,
 } from "lucide-react";
 
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
+import UserCard from "./UserCard";
 
 const LeftSideNavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +33,7 @@ const LeftSideNavBar = () => {
   }
   return (
     <>
-      {/* ================= MOBILE ================= */}
+      
       <div className="sm:hidden fixed top-0 left-0 z-50 p-4">
         <button
           onClick={() => setIsOpen(true)}
@@ -159,6 +159,8 @@ const LeftSideNavBar = () => {
           </button>
         </div>
       </aside>
+      
+       {/* ================= MOBILE / TABLET ================= */} 
 
       {/* ================= LAPTOP / DESKTOP ================= */}
       <aside className="hidden lg:flex w-64 xl:w-80 shrink-0 h-screen sticky top-0">
@@ -211,20 +213,7 @@ const LeftSideNavBar = () => {
             </button>
 
           </div>
-
-          <button className="flex items-center justify-between w-full">
-            <div className="flex gap-3">
-              <CircleUserRound size={40} />
-
-              <div className="flex flex-col">
-                <p>fullname</p>
-                <p className="-mt-2">@username</p>
-              </div>
-            </div>
-
-            <EllipsisVertical size={20} />
-          </button>
-
+        <UserCard />
         </div>
       </aside>
     </>

@@ -1,6 +1,5 @@
-import { CircleUserRound, EllipsisVertical } from "lucide-react"
 import { useAuth } from "../context/AuthContext"
-
+import UserCard from "./UserCard"
 const Following = () => {
   const {user, loading} = useAuth()
   if(loading){
@@ -11,20 +10,9 @@ const Following = () => {
     <div className="flex flex-wrap justify-between gap-10 p-10">
        
        {
-        user?.following.map((followed, index) =>{
+        user?.following?.map((followed) =>{
           return (
-            <button key={index} className="flex items-center justify-between w-65">
-            <div className="flex gap-3">
-              <CircleUserRound size={40} />
-
-              <div className="flex flex-col">
-                <p>{followed?.fullname}</p>
-                <p className="-mt-2">@{followed?.username}</p>
-              </div>
-            </div>
-
-            <EllipsisVertical size={20} />
-          </button>
+            <UserCard key = {followed._id} fullname = {followed.fullname} username = {followed.username} profileImage = {followed.profileImage} />
           )
         })
        }

@@ -3,39 +3,33 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-
-
 import NotFound from "./pages/NotFound";
-
-
-import "react-toastify/dist/ReactToastify.css";
 import Profile from "./pages/Profile";
 import LeftSideNavBar from "./components/LeftSideNavBar";
-// import Posts from "./components/Posts";
 import Followers from "./components/Followers";
-import  Following  from "./components/Following";
-import UserPosts from "./components/UserPosts";
-
-
+import Following from "./components/Following";
+import Post from "./components/Post";
+// import { useAuth } from "./context/AuthContext";
 const App = () => {
+
   return (
     <>
-    <div className="flex bg-gradient-to-b from-gray-800 to-black text-white min-h-screen font-mono">
-      <LeftSideNavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/profile" element={<Profile />}>
-        <Route path="" element={<UserPosts />} />
-          <Route path="" element={<UserPosts />} />
-          <Route path="followers" element={<Followers />} />
-          <Route path="following" element={<Following />} />
-        </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+      <div className="flex bg-gradient-to-b from-gray-800 to-black text-white min-h-screen font-mono">
+        <LeftSideNavBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />}>
+            <Route path="" element={<Post />} />
+            <Route path="" element={<Post />} />
+            <Route path="followers" element={<Followers />} />
+            <Route path="following" element={<Following />} />
+          </Route>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
-        {/* Catch all unknown routes */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          {/* Catch all unknown routes */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </div>
     </>
   );

@@ -1,10 +1,32 @@
+import axios from "axios";
 import CreatePost from "../components/CreatePost";
 import FollowBar from "../components/FollowBar";
 
-import Posts from "../components/Posts";
+import Post from "../components/Post";
 import TrendingBar from "../components/TrendingBar";
+import { useEffect, useState } from "react";
 
 const Home = () => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const feed = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/v1/user/post/posts",
+          {
+            withCredentials: true,
+          },
+        );
+        console.log(response);
+        setPosts(response.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    feed();
+  }, []);
+
   return (
     <>
       <main className="flex-1 min-w-0 flex flex-col gap-5 items-center px-3 sm:px-5 lg:px-8 py-5">
@@ -13,7 +35,13 @@ const Home = () => {
         </div>
 
         <div className="w-full max-w-2xl">
-          <Posts />
+          {
+            posts.map((post) => {
+              return(
+                <Post key={post._id} post = {post}  />
+              )
+            })
+          }
         </div>
       </main>
 
