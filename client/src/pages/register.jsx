@@ -13,7 +13,7 @@ import TagInput from "../components/TagInput";
 import { useState } from "react";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
   const [tags, setTags] = useState([]);
@@ -24,6 +24,7 @@ const Register = () => {
   const [password , setPassword] = useState()
   const [bio, setBio] = useState()
   const navigate = useNavigate()
+  const {setUser} = useAuth()
   const submitHandler = async(e) =>{
     e.preventDefault()
     try{
@@ -47,7 +48,7 @@ const Register = () => {
 
     )
     console.log(response);
-    
+    setUser(response.data.data)
     navigate('/')
   }catch(err){
       console.log(err);

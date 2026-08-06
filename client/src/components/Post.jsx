@@ -15,10 +15,10 @@ const Post = ({ post }) => {
   }
   if (pathname === "/profile") {
     return (
-      <div className="w-full md:w-full  flex flex-col gap-5 items-center lg:items-start lg:p-10">
+      <div className="w-full md:w-full  flex flex-col gap-5 items-center lg:items-start">
         {user.posts.map((post) => {
           return (
-            <div key={post._id} className="flex flex-col rounded-2xl justify-center items-center border-2 border-gray-400 p-5 max-w-180 gap-3 md:w-full w-90">
+            <div key={post._id} className="flex flex-col rounded-2xl justify-center items-center border-2 border-gray-400 max-w-180 gap-3 md:w-full w-90">
               <div>
                 <h1>{post.title}</h1>
               </div>
@@ -31,20 +31,20 @@ const Post = ({ post }) => {
 
               <div className="flex items-center justify-around w-full pt-3 border-t border-gray-100 mt-2">
                 {/* Likes */}
-                <div className="flex items-center gap-2 cursor-pointer group">
+                <button className="flex items-center gap-2 cursor-pointer group">
                   <Heart className="w-6 h-6 transition-colors duration-200" />
                   <span className="text-sm font-semibold">
                     {post.likedBy.length}
                   </span>
-                </div>
+                </button>
 
                 {/* Comments */}
-                <div className="flex items-center gap-2 cursor-pointer group">
+                <button className="flex items-center gap-2 cursor-pointer group">
                   <MessageCircle className="w-6 h-6 text-gray-500 group-hover:text-blue-500 transition-colors duration-200" />
                   <span className="text-sm font-semibold text-gray-600 group-hover:text-blue-500">
                     {post.comments.length}
                   </span>
-                </div>
+                </button>
 
                 {/* Bookmark */}
                 <div className="cursor-pointer group">
@@ -63,7 +63,7 @@ const Post = ({ post }) => {
     );
   }
   return (
-    <div className="w-full md:w-full  flex flex-col gap-5 items-center lg:items-start lg:p-10">
+    <div className="w-full md:w-full  flex flex-col gap-5 items-center lg:items-start ">
       <div className="flex flex-col rounded-2xl justify-center items-center border-2 border-gray-400 p-5 max-w-180 gap-3 md:w-full w-90">
         {/* <div className="flex items-center justify-between w-full ">
           <div className="flex gap-3">

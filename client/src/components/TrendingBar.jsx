@@ -3,12 +3,12 @@ import { Ellipsis } from "lucide-react";
 
 const TrendingBar = () => {
   return (
-    <div className="flex flex-col gap-4 lg:gap-5 p-3 lg:p-5 w-full">
+    <div className="flex flex-col gap-4 lg:gap-5  w-full">
       <h1 className="text-xl lg:text-2xl font-bold">
         Trends for you
       </h1>
 
-      <button className="flex justify-between items-center cursor-pointer w-full gap-3 hover:bg-gray-700/50 rounded-lg p-2">
+      <button className="flex justify-between items-center cursor-pointer w-full gap-3 hover:bg-gray-700/50 rounded-lg">
         <div className="flex flex-col items-start min-w-0">
           <p className="text-sm lg:text-md font-bold truncate">
             #WebDevelopment

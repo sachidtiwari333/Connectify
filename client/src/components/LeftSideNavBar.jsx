@@ -25,7 +25,7 @@ const LeftSideNavBar = () => {
   
   const linkness = (type) =>{
     let classes = 'flex gap-3 items-center hover:bg-gray-600 px-3 py-2 rounded-xl w-full'
-    if(pathname.startsWith(type)){
+    if(pathname === type){
       classes += ' bg-green-700'
 
       
@@ -173,7 +173,7 @@ const LeftSideNavBar = () => {
               Connectify
             </h1>
 
-            <Link to="/" className={linkness('/home')}>
+            <Link to="/" className={linkness('/')}>
               <House size={20} />
               Home
             </Link>
