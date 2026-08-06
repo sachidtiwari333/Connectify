@@ -16,6 +16,7 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import UserCard from "./UserCard";
+import LogoutButton from "./LogoutButton";
 
 const LeftSideNavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -206,6 +207,9 @@ const LeftSideNavBar = () => {
               <CircleEllipsis size={20} />
               More
             </button>
+
+            <LogoutButton />
+
 
             <button className="flex items-center justify-center gap-3 px-3 py-2 rounded-xl w-full bg-amber-400">
               <Pencil size={20} />
