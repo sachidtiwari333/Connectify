@@ -8,7 +8,7 @@ postRouter.post('/create-post',upload.fields([{name: 'image', maxCount : 1}]),au
 
 postRouter.get('/posts',authMiddleware, postsController)
 
-postRouter.post('/like', authMiddleware, likeController)
+postRouter.post('/:postId/like', authMiddleware, likeController)
 
-postRouter.post('/comment', authMiddleware, commentController)
+postRouter.post('/:postId/comment', authMiddleware, commentController)
 export default postRouter

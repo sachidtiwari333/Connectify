@@ -4,7 +4,6 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { Post } from "../models/post.models.js";
 import { User } from "../models/user.models.js";
 
-
 const createPostController = async (req, res) => {
   const { title } = req.body;
 
@@ -16,7 +15,7 @@ const createPostController = async (req, res) => {
 
   const imageLocalPath = req.files?.image?.[0]?.path;
   const image = await uploadOnCloudinary(imageLocalPath);
-  
+
   const post = await Post.create({
     title,
     image: image.secure_url,
@@ -44,7 +43,9 @@ const createPostController = async (req, res) => {
 
 const postsController = async (req, res) => {
   try {
-    const posts = await Post.find().populate("createdBy", "username fullname");
+    const posts = await Post.find()
+      .populate("createdBy", "username fullname profileImage")
+      .populate("comments.user", "username fullname profileImage");
     return res
       .status(200)
       .json(new ApiResponse(200, posts, "Posts fetched successfully"));
@@ -55,50 +56,77 @@ const postsController = async (req, res) => {
 
 const likeController = async (req, res) => {
   try {
-    const user = req.user;
-    const { postId } = req.body;
+    const userId = req.user._id;
+    const postId = req.params.postId;
 
     const post = await Post.findById(postId);
 
     if (!post) {
-      throw new ApiError(400, "Post not found ");
+      throw new ApiError(404, "Post not found");
     }
-    if (post.likedBy.includes(user._id)) {
-      throw new ApiError(409, "User already liked");
-    }
-    post.likedBy.push(user._id);
-    await post.save();
 
-    res.status(201).json(new ApiResponse(200, post, "Post liked Sucessfully"));
+    const alreadyLiked = post.likedBy.some(
+      (id) => id.toString() === userId.toString(),
+    );
+    let data = {
+      post,
+      liked: !alreadyLiked,
+      likeCount: post.likedBy.length,
+    };
+
+    if (alreadyLiked) {
+      post.likedBy = post.likedBy.filter(
+        (id) => id.toString() !== userId.toString(),
+      );
+      await post.save();
+      data.likeCount = post.likedBy.length;
+      return res
+        .status(200)
+        .json(new ApiResponse(200, data, "Like removed sucessfully"));
+    }
+
+    post.likedBy.push(userId);
+    await post.save();
+    data.likeCount = post.likedBy.length;
+    return res
+      .status(200)
+      .json(new ApiResponse(200, data, "Post liked sucessfully"));
   } catch (err) {
     throw new ApiError(400, err.message);
   }
 };
 
-const commentController = async(req, res) =>{
-  try{
-    const {postId, text} = req.body
-    const post  = await Post.findById(postId)
-    if(!post){
-      throw new ApiError(400, "Post does not exist")
+const commentController = async (req, res) => {
+  try {
+    const { text } = req.body;
+    const postId = req.params.postId;
+    const post = await Post.findById(postId);
+    if (!post) {
+      throw new ApiError(400, "Post does not exist");
     }
     post.comments.push({
-      user : req.user._id,
-      text : text
-    })
-    await post.save()
-
-    res.status(200).json(
-      new ApiResponse(200, post, "Commented sucessfully")
-    )
-  }catch(err){
-    throw new ApiError(400,err.message)
+      user: req.user._id,
+      text: text,
+    });
+    await post.save();
+    await post.populate("comments.user", "fullname username profileImage");
+    res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          { comments: post.comments },
+          "Commented sucessfully",
+        ),
+      );
+  } catch (err) {
+    throw new ApiError(400, err.message);
   }
-}
+};
 
 export {
   createPostController,
   postsController,
   likeController,
-  commentController
+  commentController,
 };

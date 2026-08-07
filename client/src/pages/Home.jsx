@@ -6,6 +6,7 @@ import Post from "../components/Post";
 import TrendingBar from "../components/TrendingBar";
 import { useEffect, useState } from "react";
 
+
 const Home = () => {
   const [posts, setPosts] = useState([]);
 

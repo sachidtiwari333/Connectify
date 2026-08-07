@@ -9,6 +9,10 @@ const commentSchema = mongoose.Schema({
     type : String,
     required: true
   },
+  commentedOn : {
+    type : mongoose.Schema.Types.ObjectId,
+    ref : "Post"
+  },
   createdAt: {
     type: Date,
     default: Date.now,
