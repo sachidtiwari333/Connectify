@@ -4,6 +4,8 @@ import {
   Hash,
   Star,
   UserRoundPlus,
+  X,
+  Link
 } from "lucide-react";
 import TagInput from "../components/TagInput";
 import { useState } from "react";
@@ -21,8 +23,10 @@ const EditProfile = () => {
   const [profileImage, setProfileImage] = useState("")
   const [coverImage, setCoverImage] = useState("")
   const navigate = useNavigate();
-
-  if(loading){
+  const Navigater = () =>{
+    navigate('/profile')
+  }
+   if(loading){
     return<h1>Loading</h1>
   }
   if(!user){
@@ -35,8 +39,9 @@ const EditProfile = () => {
     formdata.append("fullname", fullname)
     formdata.append("username", username)
     formdata.append("bio", bio)
-    formdata.append("tags", tags)
-    formdata.append("hobbies", hobbies)
+  formdata.append("tags", JSON.stringify(tags));
+  formdata.append("hobbies", JSON.stringify(hobbies));
+
     formdata.append("profileImage", profileImage)
     formdata.append("coverImage", coverImage)
     try {
@@ -45,30 +50,30 @@ const EditProfile = () => {
         formdata,
         {
           withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
         },
       );
       console.log(response);
 
-      navigate("/");
+      navigate("/profile");
     } catch (err) {
       console.log(err);
     }
-    console.log("Form submitted");
   };
 
   return (
-    <div className="bg-gradient-to-b from-gray-800 to-black text-white min-h-screen font-mono">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/60 p-10 overflow-auto  text-black  ">
       <form
         action=""
-        className="flex flex-col gap-6 w-full"
+        className="relative flex w-full max-w-2xl flex-col overflow-scroll rounded-2xl bg-white shadow-2xl p-10  gap-5 max-h-screen "
         onSubmit={(e) => {
           submitHandler(e);
         }}
       >
-        <div>
+        
+        <h1 className="text-3xl align-middle font-bold">Edit your profile</h1>
+        
+        <div className="mt-5">
+
           <label htmlFor="fullname">Profile image</label>
          
             <input
@@ -78,7 +83,7 @@ const EditProfile = () => {
                 setProfileImage(e.target.files[0])
               }}
               placeholder="Enter your full name"
-              className="rounded px-10 py-2 border-2 border-gray-500 w-full focus:outline-none focus:ring-0"
+              className="rounded px-10 py-2 border-2 border-gray-900 w-full focus:outline-none focus:ring-0"
             />
              {profileImage && (
           <div className="bg-gray-100 rounded-xl p-3 text-gray-700">
@@ -198,14 +203,22 @@ const EditProfile = () => {
             <span className="text-blue-400">Privacy Policy </span>
           </p>
         </div>
-
+        <div className="flex gap-5">
+          <div
+          onClick={Navigater}
+          className="flex gap-3  py-3 px-4 rounded-xl items-center justify-center text-lg sm:text-xl active:scale-95 w-full border-2"
+        >
+      
+          Cencel
+        </div>
         <button
           type="submit"
-          className="flex gap-3 bg-green-700 py-3 px-4 rounded-xl items-center justify-center text-lg sm:text-xl active:scale-95 hover:bg-green-800 w-full"
+          className="flex gap-3  py-3 px-4 rounded-xl items-center justify-center text-lg sm:text-xl active:scale-95  w-full border-2"
         >
           <UserRoundPlus className="w-5 h-5" />
           Edit profile
         </button>
+        </div>
       </form>
     </div>
   );
